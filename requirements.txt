@@ -1,0 +1,6 @@
+Django==1.8.6
+pytz
+djangorestframework
+markdown
+django-filter
+psycopg2
