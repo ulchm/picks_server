@@ -57,3 +57,15 @@ class Pick(models.Model):
 
     def __unicode__(self):
         return "Pick #%s" % self.pk
+
+
+class PoolInvitations(models.Model):
+    pool = models.ForeignKey('Pool', related_name="invitations")
+    invited_by = models.ForeignKey(User, related_name="pool_invitations_sent")
+    sent_to = models.ForeignKey(User, related_name="pool_invitations_received")
+    sent_at = models.DateTimeField(auto_now_add=True)
+    is_accepted = models.BooleanField(default=False)
+    accepted_at = models.DateTimeField(blank=True, null=True)
+
+    def __unicode__(self):
+        return self.id
