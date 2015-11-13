@@ -5,3 +5,5 @@ markdown
 django-filter
 psycopg2
 pillow
+django-rest-auth
+django-allauth
