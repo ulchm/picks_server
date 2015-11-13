@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from schedule.models import Game, Team
+from schedule.models import Game, Team, Season
 from django.utils import timezone
 
 POOL_TYPE_CHOICES = (
@@ -28,6 +28,7 @@ SCORING_METHOD_CHOICES = (
 
 
 class Pool(models.Model):
+    season = models.ForeignKey(Season, related_name="pools")
     created_by = models.ForeignKey(User, related_name="pools_created")
     created_at = models.DateTimeField(default=timezone.now)
     name = models.CharField(max_length=255)
