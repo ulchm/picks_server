@@ -9,21 +9,21 @@ POOL_TYPE_CHOICES = (
 )
 
 PICK_LOCKING_CHOICES = (
-    ('d', 'Daily at set time'),
-    ('w', 'Weekly at a set time'),
-    ('m', 'Minutes before the game starts'),
+    (1, 'Daily at set time'),
+    (2, 'Weekly at a set time'),
+    (3, 'Minutes before the game starts'),
 )
 
 GAMES_TO_INCLUDE_CHOICES = (
-    ('All', 'All Games'),
-    ('d2d', 'DOTW to DOTW (e.g. Thurs to Sun'),
-    ('date', 'Only date to date'),
+    (1, 'All Games'),
+    (2, 'DOTW to DOTW (e.g. Thurs to Sun'),
+    (3, 'Only date to date'),
 )
 
 SCORING_METHOD_CHOICES = (
-    ('T', 'Traditional - 2 for win, 1 for OT loss, 0 for reg loss'),
-    ('M', 'Modified - 3 for reg win, 2 for OT win, 1 for SO win, 0 for loss.'),
-    ('P', 'Precision - 3 for SO win, 2 for OT win, 1 for reg win, 0 for loss.'),
+    (1, 'Traditional - 2 for win, 1 for OT loss, 0 for reg loss'),
+    (2, 'Modified - 3 for reg win, 2 for OT win, 1 for SO win, 0 for loss.'),
+    (3, 'Precision - 3 for SO win, 2 for OT win, 1 for reg win, 0 for loss.'),
 )
 
 
@@ -35,13 +35,13 @@ class Pool(models.Model):
     type = models.IntegerField(choices=POOL_TYPE_CHOICES)
     password = models.CharField(max_length=255, blank=True, null=True)
     registration_opens_at = models.DateTimeField(default=timezone.now)
-    pick_locking_type = models.CharField(max_length="1", choices=PICK_LOCKING_CHOICES)
-    games_to_include = models.CharField(max_length="3", choices=GAMES_TO_INCLUDE_CHOICES)
-    scoring_method = models.CharField(max_length="1", choices=SCORING_METHOD_CHOICES)
+    pick_locking_type = models.IntegerField(choices=PICK_LOCKING_CHOICES)
+    games_to_include = models.IntegerField(choices=GAMES_TO_INCLUDE_CHOICES)
+    scoring_method = models.IntegerField(choices=SCORING_METHOD_CHOICES)
     allow_forgot_picks_notifications = models.BooleanField(default=True)
     show_others_picks = models.BooleanField(default=True)
     allow_manual_lock = models.BooleanField(default=True)
-    players = models.ManyToManyField(User, related_name="pools_joined")
+    players = models.ManyToManyField(User, related_name="pools_joined", blank=True, null=True)
 
     def __unicode__(self):
         return self.name
