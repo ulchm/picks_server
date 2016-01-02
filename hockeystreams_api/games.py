@@ -12,11 +12,15 @@ class HockeyStreamsGames(HockeyStreamsAPIBase):
             self.url += "&date=%s" % date
         self.url += "&key=%s" % (settings.HOCKEYSTREAMS_SCORES_TOKEN, )
         success, response = self.get_response(login_required=False)
-        if not success:
-            print "Warning: Likely no games on day %s" % date
-            return []
-        else:
-            return response['scores']
+        try:
+            if not success:
+                print "Warning: Likely no games on day %s" % date
+                return []
+            else:
+                return response['scores']
+        except KeyError:
+            print "ERROR:  Likely your hockey streams api key is outdated: %s" % (response, )
+            raise KeyError
 
     def get_teams(self, league="NHL"):
         if not self.key:

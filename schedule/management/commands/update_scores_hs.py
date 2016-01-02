@@ -3,6 +3,7 @@ from schedule.models import Game, Team
 from datetime import timedelta
 from hockeystreams_api.games import HockeyStreamsGames
 from django.utils import timezone
+import pytz
 
 
 class Command(BaseCommand):
@@ -11,6 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         today = None
         end_date = None
+        tz = pytz.timezone('America/Toronto')
         try:
             today = Game.objects.filter(starts_at__lte=timezone.now(), is_final=False).order_by('starts_at').first().starts_at.date()
             end_date = Game.objects.filter(starts_at__lte=timezone.now(), is_final=False).order_by('-starts_at').first().starts_at.date()
@@ -19,11 +21,18 @@ class Command(BaseCommand):
         if today and end_date:
             while True:
                 for score in HockeyStreamsGames().get_scores(date=today):
+                    if not score['shortHomeTeam'] or not score['shortAwayTeam']: #Skip blank days.
+                        continue
                     #Get the game, update the scores no matter what
                     home_team = Team.objects.get(short_name=score['shortHomeTeam'])
                     away_team = Team.objects.get(short_name=score['shortAwayTeam'])
-                    game = Game.objects.get(home_team = home_team, away_team = away_team,
-                                            starts_at__lte=today+timedelta(days=1), starts_at__gte=today, is_final=False)
+                    try:
+                        game = Game.objects.get(home_team = home_team, away_team = away_team,
+                                                starts_at__lte=today+timedelta(days=1),
+                                                starts_at__gte=today,
+                                                is_final=False)
+                    except Game.DoesNotExist:
+                        continue
                     game.home_score = score['homeScore']
                     game.away_score = score['awayScore']
 

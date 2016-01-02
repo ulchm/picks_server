@@ -37,10 +37,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'rest_framework',
     'rest_framework.authtoken',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'rest_auth',
     'rest_auth.registration',
     'schedule',
@@ -146,6 +148,8 @@ HOCKEYSTREAMS_GAMES_TOKEN = ""
 HOCKEYSTREAMS_SCORES_TOKEN = ""
 HOCKEYSTREAMS_USERNAME = ""
 HOCKEYSTREAMS_PASSWORD = ""
+
+SITE_ID = 1 #required for all-auth and sites I believe.
 
 try:
     from local_settings import *

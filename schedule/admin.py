@@ -13,6 +13,8 @@ def import_games_hockeystreams(modeladmin, request, queryset):
         tz = pytz.timezone('America/Toronto')
         while True:
             for g in hsg.get_scores(date=today):
+                if not g['shortHomeTeam'] or not g['shortAwayTeam']: #Skip blank days.
+                    continue
                 away_team, created = Team.objects.get_or_create(short_name=g['shortAwayTeam'], name=g['awayTeamName'])
                 home_team, created = Team.objects.get_or_create(short_name=g['shortHomeTeam'], name=g['homeTeamName'])
                 if "Final" not in g['period']:

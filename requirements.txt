@@ -1,4 +1,4 @@
-Django==1.8.6
+Django==1.8.8
 pytz
 djangorestframework
 markdown
@@ -7,3 +7,4 @@ psycopg2
 pillow
 django-rest-auth
 django-allauth
+ipython
