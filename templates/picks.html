@@ -1,0 +1,156 @@
+{% extends "base_site.html" %}
+{% block title %}Picks{% endblock %}
+{% block extrahead %}
+
+<style type="text/css">
+    table.condensed td, table.condensed th { padding: 5px; }
+</style>
+{% endblock %}
+{% block content %}
+<ul class="collapsible popout" data-collapsible="expandable">
+    {% for game in games %}
+        {% ifchanged game.starts_at|date:"d/m/Y" %}
+        </ul>
+        <div class="col s12" style="text-align: center;">
+            <h3>{{ game.starts_at|date:"d/m/Y" }}</h3>
+        </div>
+        <ul class="collapsible popout" data-collapsible="expandable">
+        {% endifchanged %}
+        <li>
+            <div class="collapsible-header">
+                <div class="row" style="padding-bottom: 0px; margin-bottom: 0px;">
+                    <div class="col s4 m5">
+                        <div class="col s12 center-align">
+                            <img src="{{ game.away_team.logo.url }}" height="100" width="100" />
+                        </div>
+                    </div>
+                    <div class="col s4 m2" style="text-align: center;">
+                        <p>
+                            <span style="font-size: 48px">@</span><br />
+                            {{ game.starts_at|date:"g:i a" }}
+                        </p>
+                    </div>
+                    <div class="col s4 m5">
+                        <div class="col s12 center-align">
+                            <img src="{{ game.home_team.logo.url }}" height="100" width="100" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collapsible-body">
+                <div class="row" style="padding: 0px; margin: 0px;">
+                    <div class="col s4 m5">
+                        <div class="card">
+                            <div class="card-title center-align"><span class="hide-on-small-only">{{ game.away_team.city }} </span>{{ game.away_team.name }}</div>
+                            <div class="card-content">
+                                <table class="striped bordered condensed">
+                                    <tr>
+                                        <th>Current Season Away Record</th>
+                                        <td>
+                                            {% with game.away_team.get_active_home_record as record %}
+                                                {{ record.wins }}-{{ record.losses }}-{{ record.overtime_losses }}
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Current season vs {{ game.home_team.city }} {{ game.home_team.name }}</th>
+                                        <td>
+                                            {% with game.get_season_team_history as record %}
+                                                {{ record.away_wins|default:"0" }}-{{ record.away_losses|default:"0" }}
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Current Season All Games Record</th>
+                                        <td>
+                                            {% with game.away_team.get_active_season_record as record %}
+                                                {{ record.wins|default:"0" }}-{{ record.losses|default:"0" }}-{{ record.overtime_losses|default:"0" }}
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Last 10 Games</th>
+                                        <td>
+                                            {% with game.away_team.get_last_10_record as record %}
+                                                {{ record.wins|default:"0" }}-{{ record.losses|default:"0" }}-{{ record.overtime_losses|default:"0" }}
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Current Streak</th>
+                                        <td>
+                                            {{ game.away_team.get_streak_display|default:"No Streak" }}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="card-action center-align">
+                                <a class="btn btn-large waves-effect"><span class="hide-on-small-only">Select </span> <img class="right" src="{{ game.away_team.logo.url }}" width="55" height="55" /></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s4 m2" style="text-align: center; padding-top: 30px;">
+                        <a class="btn" href="#">Comments</a><br /><br />
+                        <a class="btn" href="#">Stream</a><br /><br />
+                        <a class="btn" href="#">Lock</a>
+                    </div>
+                    <div class="col s4 m5">
+                        <div class="card">
+                            <div class="card-title center-align"><span class="hide-on-small-only">{{ game.home_team.city }} </span>{{ game.home_team.name }}</div>
+                            <div class="card-content">
+                                <table class="striped bordered condensed">
+                                    <tr>
+                                        <th>
+                                            <span class="hide-on-med-and-down">Current Season Home Record</span>
+                                            <span class="hide-on-lg">H</span>
+                                        </th>
+                                        <td>
+                                            {% with game.home_team.get_active_home_record as record %}
+                                                {{ record.wins }}-{{ record.losses }}-{{ record.overtime_losses }}
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Current Season vs {{ game.away_team.city }} {{ game.away_team.name }}</th>
+                                        <td>
+                                            {% with game.get_season_team_history as record %}
+                                                {{ record.home_wins|default:"0" }}-{{ record.home_losses|default:"0" }}
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Current Season All Games Record</th>
+                                        <td>
+                                            {% with game.home_team.get_active_season_record as record %}
+                                            {{ record.wins|default:"0" }}-{{ record.losses|default:"0" }}-{{ record.overtime_losses|default:"0" }}
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Last 10 Games</th>
+                                        <td>
+                                            {% with game.home_team.get_last_10_record as record %}
+                                                {{ record.wins|default:"0" }}-{{ record.losses|default:"0" }}-{{ record.overtime_losses|default:"0" }}
+                                            {% endwith %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Current Streak</th>
+                                        <td>
+                                            {{ game.home_team.get_streak_display|default:"No Streak" }}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="card-action center-align">
+                                <a class="btn btn-large waves-effect"><span class="hide-on-small-only">Select </span> <img class="right" src="{{ game.home_team.logo.url }}" width="55" height="55" /></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A hockey pool that specializes in easy picking of team vs team games!">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <title>{% block title %}{% endblock %} | picks.Hockey!</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/static/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link rel="shortcut icon" href="/static/img/favicon.png">
+    {% block extrahead %}{% endblock %}
+</head>
+<body>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                &nbsp;<a href="/" class="brand-logo">picks.Hockey</a>
+                <ul class="right">
+                    <li><a href="{% url "picks" %}">Picks</a></li>
+                    <li><a href="{% url "pools" %}">Pools</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    {% block content %}{% endblock %}
+<!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="/static/materialize/js/materialize.min.js"></script>
+    <script src="/static/js/init.js"></script>
+
+</body>
+</html>

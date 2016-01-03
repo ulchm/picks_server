@@ -1,0 +1,104 @@
+{% extends "base_site.html" %}
+{% block title %}Pools{% endblock %}
+{% block extrahead %}
+$(document).ready(function() {
+    $('select').material_select();
+});
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card">
+                <form method="post" action="{% url "add_pool" %}">
+                <div class="card-content">
+                    <span class="card-title">Add Your Own Pool! </span>
+                    <p>Use the form below the quickly add your own pool!  It's free!</p><br />
+                    {% csrf_token %}
+                    <p>
+                        <input name="server_visibility" type="radio" id="public" />
+                        <label for="public">Public</label>
+                        <input name="server_visibility" type="radio" id="private" selected="selected" />
+                        <label for="private">Private</label>
+                    </p>
+                    <div class="input-field s12">
+                        <input id="pool_name" name="pool_name" type="text" class="validate" />
+                        <label for="pool_name">Pool Name</label>
+                    </div>
+                </div>
+                <div class="card-action">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="col s12 m6">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Your Pools </span>
+                    <p>You will find your the pools you have previously participated in below.</p>
+                    <table class="striped bordered responsive-table highlight">
+                        <thead>
+                            <tr>
+                                <th data-field="name">Name</th>
+                                <th data-field="player_count">Players</th>
+                                <th data-field="person_percent">Your  %</th>
+                                <th data-field="pool_percent">Pool %</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Storm 2015-2016 NHL Pool</td>
+                                <td>14</td>
+                                <td>59.97%</td>
+                                <td>64.8%</td>
+                            </tr>
+                            <tr>
+                                <td>Storm 2014-2015 NHL Pool</td>
+                                <td>12</td>
+                                <td>58.97%</td>
+                                <td>54.4%</td>
+                            </tr>
+                        <tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Find & Join A Pool</span>
+                    <p>Use the form below to search for a new pool to join and compete in!</p>
+                    <table class="striped bordered responsive-table highlight">
+                        <thead>
+                        <tr>
+                            <th data-field="name">Name</th>
+                            <th data-field="player_count">Players</th>
+                            <th data-field="person_percent">Your  %</th>
+                            <th data-field="pool_percent">Pool %</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Storm 2015-2016 NHL Pool</td>
+                            <td>14</td>
+                            <td>59.97%</td>
+                            <td>64.8%</td>
+                        </tr>
+                        <tr>
+                            <td>Storm 2014-2015 NHL Pool</td>
+                            <td>12</td>
+                            <td>58.97%</td>
+                            <td>54.4%</td>
+                        </tr>
+                        <tr>
+                    </table>
+                </div>
+            </div>
+    </div>
+
+{% endblock %}

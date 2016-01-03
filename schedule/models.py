@@ -25,12 +25,26 @@ class Team(models.Model):
     name = models.CharField(max_length=255, help_text="The name of the team, without the city")
     short_name = models.CharField(max_length=3, help_text="The short name / code for the team.  3 Letters.")
     city = models.CharField(max_length=255, blank=True, null=True, help_text="The city the team is from")
-    large_logo = models.ImageField(upload_to="team_large_logos", blank=True, null=True)
-    small_logo = models.ImageField(upload_to="team_small_logos", blank=True, null=True)
+    logo = models.FileField(upload_to="team_logos", blank=True, null=True, help_text="SVG Vector Image logo")
     is_active = models.BooleanField(default=True)
 
     def __unicode__(self):
+        if self.city:
+            return "%s %s" % (self.city, self.name)
         return "%s: %s" % (self.short_name, self.name)
+
+    def get_active_away_record(self):
+        #TODO: Look up current leagues / seasons and return active win, loss and ties as a dictionary
+        return {'wins': 0,
+                'losses': 0,
+                'overtime_losses': 0}
+
+
+    def get_active_home_record(self):
+        #TODO: Look up current leagues / seasons and return active win, loss and ties as a dictionary
+        return {'wins': 0,
+                'losses': 0,
+                'overtime_losses': 0}
 
 
 class Game(models.Model):
@@ -50,3 +64,21 @@ class Game(models.Model):
 
     def __unicode__(self):
         return "%s @ %s - %s" % (self.away_team, self.home_team, self.starts_at)
+
+    def get_season_team_history(self):
+        #TODO: Look up games in active system and history between these teams, building list of home / away wins and losses
+        return {
+            "home_wins": 0,
+            "away_wins": 0,
+            "home_losses": 0,
+            "away_losses": 0
+        }
+
+    def get_all_team_history(self):
+        #TODO: Look up all games in system and return how many games the home team and away team have won / lost
+        return {
+            "home_wins": 0,
+            "away_wins": 0,
+            "home_losses": 0,
+            "away_losses": 0
+        }
